@@ -1,5 +1,5 @@
 ## Madhav Adhikari
-#### Repo: 3013-Algorithms-Adhikar
+#### Repo: 3013-Algorithms-Adhikari
 #### Email: madhikari0624@my.msutexas.edu
 #### Website: N/A
 #### Image:
