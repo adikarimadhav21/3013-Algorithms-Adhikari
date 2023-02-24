@@ -3,10 +3,11 @@
 #include <fstream>
 #include <vector>
 #include <typeinfo>
+#include <map>
+#include <ctime>
 
 using namespace std;
 using namespace nlohmann;
-#include <map>
 
 /**
  * define the GPS struct with the operator== and operator< functions
@@ -114,19 +115,45 @@ private:
             insert(node->right, value, id, first_name, last_name, email, address, city, state, car,
                    car_model, car_color, favorite_movie, pet, job_title, phone_number, latitude, longitude, stocks);
         }
-    
     }
 
     Node *search(Node *node, const T &value) const
     {
+        static int count = 0;
+        count++;
+        const clock_t start = clock();
+
+        // Compared "Park" to 235 nodes ...
+
         if (node == nullptr)
         {
+            cout << "Comapared  to " << count << " nodes" << endl;
+
+            clock_t end = clock();
+            double elapsed = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+            cout << "No Record Found in " << elapsed << " seconds" << endl;
+
             return node;
         }
         // C++ compilier will dynamically switch < operator as per data types
         //  todo ignore case sensitive during string compare
         if (node->value == value)
         {
+            if constexpr (is_same_v<T, GPS>)
+            {
+                cout << "Comapared "
+                     << "(" << value.lat << ", " << value.lon << ") "
+                     << " to" << count << " nodes" << endl;
+            }
+            else
+            {
+                cout << "Comapared \"" << value << "\"  to " << count << " nodes" << endl;
+            }
+
+            clock_t end = clock();
+            double elapsed = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+            cout << "Found in " << elapsed << " seconds" << endl;
+
             return node;
         }
         else if (value < node->value)
@@ -172,6 +199,7 @@ public:
 
     Node *search(const T &value) const
     {
+
         return search(root, value);
     }
     void print()
@@ -184,7 +212,8 @@ public:
     {
         if (result == nullptr)
         {
-            cout << "No record found";
+            cout << "No record found"<<endl;
+            cout << "############ Searching end ##################" << endl;
         }
         else
         {
@@ -205,7 +234,7 @@ public:
             nodeJson["latitude"] = result->latitude;
             nodeJson["longitude"] = result->longitude;
             nodeJson["stocks"] = result->stocks;
-        // constexpr will check the template parameter T to determine how to print the values .
+            // constexpr will check the template parameter T to determine how to print the values .
 
             if constexpr (is_same_v<T, GPS>)
             {
@@ -214,10 +243,11 @@ public:
             }
             else
             {
-                cout << "Record found for " << result->value << "=> " << endl;
+                cout << "Record found for " << result->value << "=> ";
             }
             cout << nodeJson;
             cout << endl;
+            cout << "############ Searching end ##################" << endl;
         }
     }
 };
@@ -255,7 +285,7 @@ int main()
     // loop to extract each line of json in files (like NDJson where JSON lines separted by new line charcter)
     for (auto item : jsonData.items())
     {
-      //  cout << item.key() << " :: " << item.value() << "\n";
+        //  cout << item.key() << " :: " << item.value() << "\n";
         int id;
         string first_name, last_name, email, address, city, state, car,
             car_model, car_color, favorite_movie, pet, job_title, phone_number;
@@ -346,7 +376,7 @@ int main()
                 cout << "No key found " << endl;
             }
 
-          //  cout << value.key() << " : " << value.value() << "\n";
+            //  cout << value.key() << " : " << value.value() << "\n";
         }
         gps.lat = latitude;
         gps.lon = longitude;
@@ -448,7 +478,10 @@ int main()
             cout << "Enter value to longitude " << endl;
             cin >> data;
             gp.lon = stod(data);
-
+            cout << "############# Searching Start #################" << endl;
+            cout << "Searching for "
+                 << "(" << gp.lat << ", " << gp.lon << ")"
+                 << " in BST by " << mapdata[key] << endl;
             // print found data after searcing data in respective BST
             bstMapGPS[mapdata[key]].printSearch(bstMapGPS[mapdata[key]].search(gp));
         }
@@ -457,6 +490,9 @@ int main()
         {
             cout << "Enter value to search " << endl;
             cin >> data;
+            cout << "############# Searching Start #################" << endl;
+            cout << "Searching for \"" << data << "\"  in BST by " << mapdata[key] << endl;
+
             if (mapdata[key] == "id")
             {
                 int value = stoi(data);
