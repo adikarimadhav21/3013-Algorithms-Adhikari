@@ -63,7 +63,8 @@
 			"stdexcept": "cpp",
 			"streambuf": "cpp",
 			"typeinfo": "cpp",
-			"valarray": "cpp"
+			"valarray": "cpp",
+			"shuffle_test": "cpp"
 		}
 	},
 	"launch": {
