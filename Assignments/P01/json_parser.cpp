@@ -282,7 +282,7 @@ int main()
 
     json jsonData = json::parse(inputfile);
 
-    // loop to extract each line of json in files (like NDJson where JSON lines separted by new line charcter)
+    // loop to extract each line of json in files (like NDJson where JSON lines separted by new line character)
     for (auto item : jsonData.items())
     {
         //  cout << item.key() << " :: " << item.value() << "\n";
