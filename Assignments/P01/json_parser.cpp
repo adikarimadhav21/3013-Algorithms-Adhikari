@@ -163,7 +163,7 @@ private:
     {
         // count number of nodes while searching the values
         static int count = 0;
-        // todo while loop issue  : retain previos value
+        
         count++;
         // calculate excuetion time to find the values in BST
         const clock_t start = clock();
@@ -202,7 +202,8 @@ private:
             clock_t end = clock();
             double elapsed = static_cast<double>(end - start) / CLOCKS_PER_SEC;
             cout << "Found in " << elapsed << " seconds" << endl;
-
+            //// static count retain previous values while searching anthor values so  re-initialized 
+            count=0;
             return node;
         }
         else if (value < node->value)
