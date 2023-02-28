@@ -113,6 +113,190 @@ public:
     GPS gps;
 };
 
+struct NodeList
+{
+    JsonData *data;
+    NodeList *next;
+};
+
+class LinkedList
+{
+public:
+    LinkedList()
+    {
+        head = nullptr;
+    }
+
+    void add(JsonData *data)
+    {
+        NodeList *node = new NodeList;
+        node->data = data;
+        node->next = head;
+        head = node;
+    }
+
+    void printCount(string key, int nodeCount, clock_t start)
+    {
+        cout << "Comapared \"" << key << "\"  to " << nodeCount << " nodes" << endl;
+        clock_t end = clock();
+        double elapsed = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+        cout << "Found in " << elapsed << " seconds" << endl;
+    }
+
+    JsonData *find(const string &key, string criteria)
+    {
+
+        // count number of nodes while searching the values
+        int nodeCount = 0;
+
+        // calculate excuetion time to find the values in BST
+        const clock_t start = clock();
+        NodeList *current = head;
+        while (current != nullptr)
+        {
+            nodeCount++;
+
+            if (criteria == "id")
+            {
+                if (current->data->id == stoi(key))
+                {
+                    printCount(key, nodeCount, start);
+                    return current->data;
+                }
+            }
+            else if (criteria == "email")
+            {
+                if (containsIgnoreCase(current->data->email, key))
+                {
+                    printCount(key, nodeCount, start);
+
+                    return current->data;
+                }
+            }
+            else if (criteria == "last_name")
+            {
+                if (containsIgnoreCase(current->data->last_name, key))
+                {
+                    printCount(key, nodeCount, start);
+
+                    return current->data;
+                }
+            }
+            else if (criteria == "car_model")
+            {
+                if (containsIgnoreCase(current->data->car_model, key))
+                {
+                    printCount(key, nodeCount, start);
+
+                    return current->data;
+                }
+            }
+            else if (criteria == "job_title")
+            {
+                if (containsIgnoreCase(current->data->job_title, key))
+                {
+                    printCount(key, nodeCount, start);
+
+                    return current->data;
+                }
+            }
+            else if (criteria == "phone_number")
+            {
+                if (containsIgnoreCase(current->data->phone_number, key))
+                {
+                    printCount(key, nodeCount, start);
+
+                    return current->data;
+                }
+            }
+            else if (criteria == "address")
+            {
+                if (containsIgnoreCase(current->data->address, key))
+                {
+                    printCount(key, nodeCount, start);
+
+                    return current->data;
+                }
+            }
+            else if (criteria == "latitude")
+            {
+                if (current->data->latitude == stod(key))
+                {
+                    printCount(key, nodeCount, start);
+
+                    return current->data;
+                }
+            }
+
+            current = current->next;
+        }
+         printCount(key, nodeCount, start);
+        return nullptr;
+    }
+
+    JsonData *find(GPS key)
+    {
+        NodeList *current = head;
+        while (current != nullptr)
+        {
+
+            if (current->data->gps == key)
+            {
+                return current->data;
+            }
+
+            current = current->next;
+        }
+        return nullptr;
+    }
+
+    void printSearch(JsonData *result)
+    {
+        if (result != nullptr)
+        {
+
+            json nodeJson;
+            nodeJson["id"] = result->id;
+            nodeJson["first_name"] = result->first_name;
+            nodeJson["last_name"] = result->last_name;
+            nodeJson["email"] = result->email;
+            nodeJson["address"] = result->address;
+            nodeJson["city"] = result->city;
+            nodeJson["car"] = result->car;
+            nodeJson["car_model"] = result->car_model;
+            nodeJson["car_color"] = result->car_color;
+            nodeJson["favorite_movie"] = result->favorite_movie;
+            nodeJson["pet"] = result->pet;
+            nodeJson["job_title"] = result->job_title;
+            nodeJson["phone_number"] = result->phone_number;
+            nodeJson["latitude"] = result->latitude;
+            nodeJson["longitude"] = result->longitude;
+            nodeJson["stocks"] = result->stocks;
+            cout << "Record found => ";
+            cout << nodeJson;
+            cout << endl;
+        }
+        else
+        {
+            cout << "No record found" << endl;
+        }
+        cout << "############ Searching end ##################" << endl;
+    }
+    void printValue()
+    {
+        NodeList *travel = head;
+
+        while (travel != NULL)
+        {
+            cout << travel->data->id << " " << travel->data->first_name;
+            travel = travel->next;
+        }
+    }
+
+private:
+    NodeList *head;
+};
+
 //  BinarySearchTree class is defined using a template parameter typename T,
 // which allows it to work with any data type
 template <typename T>
@@ -163,7 +347,7 @@ private:
     {
         // count number of nodes while searching the values
         static int count = 0;
-        
+
         count++;
         // calculate excuetion time to find the values in BST
         const clock_t start = clock();
@@ -186,7 +370,7 @@ private:
             {
                 cout << "Comapared "
                      << "(" << value.lat << ", " << value.lon << ") "
-                     << " to" << count << " nodes" << endl;
+                     << " to " << count << " nodes" << endl;
             }
             else if constexpr (is_same_v<T, WildCardString>)
             {
@@ -202,8 +386,8 @@ private:
             clock_t end = clock();
             double elapsed = static_cast<double>(end - start) / CLOCKS_PER_SEC;
             cout << "Found in " << elapsed << " seconds" << endl;
-            //// static count retain previous values while searching anthor values so  re-initialized 
-            count=0;
+            //// static count retain previous values while searching anthor values so  re-initialized
+            count = 0;
             return node;
         }
         else if (value < node->value)
@@ -266,7 +450,7 @@ public:
         if (result == nullptr)
         {
             cout << "No record found" << endl;
-            cout << "############ Searching end ##################" << endl;
+            // cout << "############ Searching end ##################" << endl;
         }
         else
         {
@@ -304,7 +488,7 @@ public:
             }
             cout << nodeJson;
             cout << endl;
-            cout << "############ Searching end ##################" << endl;
+            // cout << "############ Searching end ##################" << endl;
         }
     }
 };
@@ -317,6 +501,10 @@ int main()
     map<string, BinarySearchTree<WildCardString>> bstMapString;
     map<string, BinarySearchTree<double>> bstMapDouble;
     map<string, BinarySearchTree<GPS>> bstMapGPS;
+
+    // create linkedlist -- store jsonData struct/class-- search data
+
+    LinkedList l;
 
     // read josn files .
     // todo  read multiples files
@@ -438,6 +626,7 @@ int main()
     shuffle(JsonDataList.begin(), JsonDataList.end(), std::default_random_engine(seed));
 
     for (JsonData data : JsonDataList)
+
     {
         /**
          * The expression bstMapInt["id"].insert(id;
@@ -465,7 +654,12 @@ int main()
         bstMapDouble["latitude"].insert(data.latitude, data);
         // BST for GPS
         bstMapGPS["GPS"].insert(data.gps, data);
+        l.add(new JsonData(data));
     }
+    cout << "Print list " << endl;
+    l.printValue();
+    cout << endl;
+
     // print all trees : inorder trasversal
     for (auto i : bstMapInt)
     {
@@ -487,6 +681,7 @@ int main()
         bstMapGPS[i.first].print();
         cout << endl;
     }
+
     // mapdata is used later during meneu display and it is only used for console user friendly
     map<string, string> mapdata;
     mapdata["1"] = "id";
@@ -534,6 +729,12 @@ int main()
                  << " in BST by " << mapdata[key] << endl;
             // print found data after searcing data in respective BST
             bstMapGPS[mapdata[key]].printSearch(bstMapGPS[mapdata[key]].search(gp));
+            cout << endl;
+            cout << "***************************" << endl;
+            cout << "Searching for "
+                 << "(" << gp.lat << ", " << gp.lon << ")"
+                 << " in LinkList by " << mapdata[key] << endl;
+            l.printSearch(l.find(gp));
         }
 
         else
@@ -547,16 +748,33 @@ int main()
             {
                 int value = stoi(data);
                 bstMapInt[mapdata[key]].printSearch(bstMapInt[mapdata[key]].search(value));
+                cout << endl;
+                cout << "***************************" << endl;
+                cout << "Searching for \"" << data << "\"  in LinkList by " << mapdata[key] << endl;
+
+                l.printSearch(l.find(data, mapdata[key]));
             }
             else if (mapdata[key] == "latitude")
             {
                 double doubleValue = stod(data);
                 bstMapDouble[mapdata[key]].printSearch(bstMapDouble[mapdata[key]].search(doubleValue));
+                cout << endl;
+                cout << "***************************" << endl;
+
+                cout << "Searching for \"" << data << "\"  in LinkList by " << mapdata[key] << endl;
+
+                l.printSearch(l.find(data, mapdata[key]));
             }
 
             else
             {
                 bstMapString[mapdata[key]].printSearch(bstMapString[mapdata[key]].search(data));
+                cout << endl;
+                cout << "***************************" << endl;
+
+                cout << "Searching for \"" << data << "\"  in LinkList by " << mapdata[key] << endl;
+
+                l.printSearch(l.find(data, mapdata[key]));
             }
         }
 
