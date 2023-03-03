@@ -137,7 +137,8 @@ public:
         node->next = head;
         head = node;
     }
-    void append( JsonData *data){
+    void append(JsonData *data)
+    {
         NodeList *temp = new NodeList();
         temp->data = data;
         temp->next = nullptr;
@@ -160,6 +161,7 @@ public:
         clock_t end = clock();
         double elapsed = static_cast<double>(end - start) / CLOCKS_PER_SEC;
         cout << "Found in " << elapsed << " seconds" << endl;
+        cout << "time  " << start << " " << end << endl;
     }
     // search values in linked list according to criteria (like id,first_name)
     JsonData *find(const string &key, string criteria)
@@ -168,8 +170,8 @@ public:
         // count number of nodes while searching the values
         int nodeCount = 0;
 
-        // calculate excuetion time to find the values in BST
-         clock_t start = clock();
+        // calculate execution time to find the values in BST
+        clock_t start_time = clock();
         NodeList *current = head;
         while (current != nullptr)
         {
@@ -179,7 +181,7 @@ public:
             {
                 if (current->data->id == stoi(key))
                 {
-                    printCount(key, nodeCount, start);
+                    printCount(key, nodeCount, start_time);
                     return current->data;
                 }
             }
@@ -187,7 +189,7 @@ public:
             {
                 if (containsIgnoreCase(current->data->email, key))
                 {
-                    printCount(key, nodeCount, start);
+                    printCount(key, nodeCount, start_time);
 
                     return current->data;
                 }
@@ -196,7 +198,7 @@ public:
             {
                 if (containsIgnoreCase(current->data->last_name, key))
                 {
-                    printCount(key, nodeCount, start);
+                    printCount(key, nodeCount, start_time);
 
                     return current->data;
                 }
@@ -205,7 +207,7 @@ public:
             {
                 if (containsIgnoreCase(current->data->car_model, key))
                 {
-                    printCount(key, nodeCount, start);
+                    printCount(key, nodeCount, start_time);
 
                     return current->data;
                 }
@@ -214,7 +216,7 @@ public:
             {
                 if (containsIgnoreCase(current->data->job_title, key))
                 {
-                    printCount(key, nodeCount, start);
+                    printCount(key, nodeCount, start_time);
 
                     return current->data;
                 }
@@ -223,7 +225,7 @@ public:
             {
                 if (containsIgnoreCase(current->data->phone_number, key))
                 {
-                    printCount(key, nodeCount, start);
+                    printCount(key, nodeCount, start_time);
 
                     return current->data;
                 }
@@ -232,7 +234,7 @@ public:
             {
                 if (containsIgnoreCase(current->data->address, key))
                 {
-                    printCount(key, nodeCount, start);
+                    printCount(key, nodeCount, start_time);
 
                     return current->data;
                 }
@@ -241,7 +243,7 @@ public:
             {
                 if (current->data->latitude == stod(key))
                 {
-                    printCount(key, nodeCount, start);
+                    printCount(key, nodeCount, start_time);
 
                     return current->data;
                 }
@@ -249,23 +251,41 @@ public:
 
             current = current->next;
         }
-        printCount(key, nodeCount, start);
+        printCount(key, nodeCount, start_time);
         return nullptr;
     }
     // serach GPS in linkedlist
     JsonData *find(GPS key)
     {
+        // count number of nodes while searching the values
+        int nodeCount = 0;
+
+        // calculate execution time to find the values in BST
+        clock_t start_time = clock();
         NodeList *current = head;
         while (current != nullptr)
         {
+            nodeCount++;
 
             if (current->data->gps == key)
             {
+                cout << "Comapared "
+                     << "(" << key.lat << ", " << key.lon << ") "
+                     << " to " << nodeCount << " nodes" << endl;
+                clock_t end = clock();
+                double elapsed = static_cast<double>(end - start_time) / CLOCKS_PER_SEC;
+                cout << "Found in " << elapsed << " seconds" << endl;
                 return current->data;
             }
 
             current = current->next;
         }
+        cout << "Comapared "
+             << "(" << key.lat << ", " << key.lon << ") "
+             << " to " << nodeCount << " nodes" << endl;
+        clock_t end = clock();
+        double elapsed = static_cast<double>(end - start_time) / CLOCKS_PER_SEC;
+        cout << "Found in " << elapsed << " seconds" << endl;
         return nullptr;
     }
     // print found record in console
@@ -369,7 +389,7 @@ private:
         static int count = 0;
 
         count++;
-        // calculate excuetion time to find the values in BST
+        // calculate execution time to find the values in BST
         const clock_t start = clock();
 
         if (node == nullptr)
@@ -674,7 +694,7 @@ int main()
         // BST for GPS
         bstMapGPS["GPS"].insert(data.gps, data);
         // insert JsonData in linked_list
-       // l.add(new JsonData(data));
+        // l.add(new JsonData(data));
         l.append(new JsonData(data));
     }
     // cout << "Print list " << endl;
