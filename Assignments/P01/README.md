@@ -2,7 +2,7 @@
 ## P01 - Parse JSON files , build a data structure and search the record
 ### Madhav Adhikari
 ### Description:
-Using Mockaroo, we created random_person_data.json files where Json has 16 elements. This program has binary search tree data and a linked list structure to load data and search the respective data by comparing the time difference between them. This program made the binary search tree/LinkedList for the following values only 8 ("id";"last_name"; - "email"; - "car_model"; - "job_title"; - "address";- "phone_number - "latitude"; - "GPS";) of the 16 values ( GPS will be used to search data by pairing latitude and longitude).  I have applied the following approaches to this program 
+Using Mockaroo, we created random_person_data.json files where Json has 16 elements. This program has binary search tree  and a linked list data structure to load data and search the respective data by comparing the time difference between them. This program made the binary search tree/LinkedList for 8 values only ("id";"last_name"; - "email"; - "car_model"; - "job_title"; - "address";- "phone_number - "latitude"; - "GPS";) of the 16 values ( GPS will be used to search data by pairing latitude and longitude).  I have applied the following approaches to this program.
 
 - Read JSON files and collect all data JsonData in vector JsonDataList
 - To  make a better balance BST, randomly shuffle the JsonData 
