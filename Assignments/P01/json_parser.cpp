@@ -137,6 +137,22 @@ public:
         node->next = head;
         head = node;
     }
+    void append( JsonData *data){
+        NodeList *temp = new NodeList();
+        temp->data = data;
+        temp->next = nullptr;
+        NodeList *tail = head;
+        if (head == NULL)
+        {
+            head = temp;
+            return;
+        }
+        while (tail->next != NULL)
+        {
+            tail = tail->next;
+        }
+        tail->next = temp;
+    }
     // Display count and execution time in console
     void printCount(string key, int nodeCount, clock_t start)
     {
@@ -658,7 +674,8 @@ int main()
         // BST for GPS
         bstMapGPS["GPS"].insert(data.gps, data);
         // insert JsonData in linked_list
-        l.add(new JsonData(data));
+       // l.add(new JsonData(data));
+        l.append(new JsonData(data));
     }
     // cout << "Print list " << endl;
     // l.printValue();
