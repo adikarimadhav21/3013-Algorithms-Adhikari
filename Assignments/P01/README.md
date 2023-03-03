@@ -6,9 +6,10 @@ Using Mockaroo, we created random_person_data.json files where Json has 16 elem
 
 - Read JSON files and collect all data JsonData in vector JsonDataList
 - To  make a better balance BST, randomly shuffle the JsonData 
-- Make different BST and store them in the map ( key= element_name, value_BST), here to store different types of BST like string, double, int, GPS , template <typename T> concept is used 
+- Make different BST and store them in the map ( key= element_name, value=BST), here, to store different types of BST like string, double, int, GPS , template <typename T> concept is used 
 - To compare the values to respective types like sting comparison with ignoring case and special character, used operator overloading concepts
-- Insert all JsonData into linkedList- Ask the user to enter search parameters like 1 for id and 2 for last_name and respective intentioned search values 
+- Insert all JsonData into linkedList
+- Ask the user to enter search parameters like 1 for id and 2 for last_name and respective intentioned search values 
 - Search the required values in respective BST and LinkedList
 - Count the number of nodes and calculate execution time till the required values found
 - Display the result in the console 
@@ -26,7 +27,7 @@ Since most of these data elements are easily sorted and made searchable so we ca
 
 - Make sure you placed the json files inside the data folder:
 - Make sure the json.hpp files download from nlohman libary and placed same location as main pasrer code (json_parser.cpp):
-- Run the program and select option to seacrh and type search valves via  console 
+- Run the program and select option to seacrh and enter search values via  console 
 
 ### Example Command:
 - None for now
