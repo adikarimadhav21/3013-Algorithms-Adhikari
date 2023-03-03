@@ -12,6 +12,7 @@
 using namespace std;
 using namespace nlohmann;
 
+// two string compare by ignoring cases and special characters
 bool containsIgnoreCase(const std::string &str1, const std::string &str2)
 {
     auto str1Begin = str1.begin();
@@ -64,7 +65,7 @@ struct WildCardString
 };
 
 /**
- * define the GPS struct with the operator== and operator< functions
+ * Define the GPS struct with the operator== and operator< functions
  * operator function can used later in insert and search function to compare GPS  types data
  */
 
@@ -113,12 +114,14 @@ public:
     GPS gps;
 };
 
+// define NodeList struct to insert Jsondata in linkedList
 struct NodeList
 {
     JsonData *data;
     NodeList *next;
 };
 
+// Define linkedList class to organize  insert,search, print function of link list
 class LinkedList
 {
 public:
@@ -134,7 +137,7 @@ public:
         node->next = head;
         head = node;
     }
-
+    // Display count and execution time in console
     void printCount(string key, int nodeCount, clock_t start)
     {
         cout << "Comapared \"" << key << "\"  to " << nodeCount << " nodes" << endl;
@@ -142,7 +145,7 @@ public:
         double elapsed = static_cast<double>(end - start) / CLOCKS_PER_SEC;
         cout << "Found in " << elapsed << " seconds" << endl;
     }
-
+    // search values in linked list according to criteria (like id,first_name)
     JsonData *find(const string &key, string criteria)
     {
 
@@ -150,7 +153,7 @@ public:
         int nodeCount = 0;
 
         // calculate excuetion time to find the values in BST
-        const clock_t start = clock();
+         clock_t start = clock();
         NodeList *current = head;
         while (current != nullptr)
         {
@@ -230,10 +233,10 @@ public:
 
             current = current->next;
         }
-         printCount(key, nodeCount, start);
+        printCount(key, nodeCount, start);
         return nullptr;
     }
-
+    // serach GPS in linkedlist
     JsonData *find(GPS key)
     {
         NodeList *current = head;
@@ -249,7 +252,7 @@ public:
         }
         return nullptr;
     }
-
+    // print found record in console
     void printSearch(JsonData *result)
     {
         if (result != nullptr)
@@ -282,6 +285,7 @@ public:
         }
         cout << "############ Searching end ##################" << endl;
     }
+    // print all linkedList values
     void printValue()
     {
         NodeList *travel = head;
@@ -502,8 +506,6 @@ int main()
     map<string, BinarySearchTree<double>> bstMapDouble;
     map<string, BinarySearchTree<GPS>> bstMapGPS;
 
-    // create linkedlist -- store jsonData struct/class-- search data
-
     LinkedList l;
 
     // read josn files .
@@ -516,7 +518,6 @@ int main()
 
     json jsonData = json::parse(inputfile);
     double latitude, longitude;
-    vector<string> stocks;
     GPS gps;
     // collect data from files
     JsonData jsondata;
@@ -524,6 +525,8 @@ int main()
     // loop to extract each line of json in files (like NDJson where JSON lines separted by new line character)
     for (auto item : jsonData.items())
     {
+        vector<string> stocks;
+
         //  cout << item.key() << " :: " << item.value() << "\n";
 
         // iterate for each elements of JSON object
@@ -654,33 +657,35 @@ int main()
         bstMapDouble["latitude"].insert(data.latitude, data);
         // BST for GPS
         bstMapGPS["GPS"].insert(data.gps, data);
+        // insert JsonData in linked_list
         l.add(new JsonData(data));
     }
-    cout << "Print list " << endl;
-    l.printValue();
-    cout << endl;
+    // cout << "Print list " << endl;
+    // l.printValue();
+    // cout << endl;
 
     // print all trees : inorder trasversal
-    for (auto i : bstMapInt)
-    {
-        bstMapInt[i.first].print();
-        cout << endl;
-    }
-    for (auto i : bstMapString)
-    {
-        bstMapString[i.first].print();
-        cout << endl;
-    }
-    for (auto i : bstMapDouble)
-    {
-        bstMapDouble[i.first].print();
-        cout << endl;
-    }
-    for (auto i : bstMapGPS)
-    {
-        bstMapGPS[i.first].print();
-        cout << endl;
-    }
+    // for (auto i : bstMapInt)
+    // {
+    //     bstMapInt[i.first].print();
+    //     cout << endl;
+    // }
+    // for (auto i : bstMapString)
+
+    // {   cout<< "----------- " << i.first<< " ------";
+    //     bstMapString[i.first].print();
+    //     cout << endl;
+    // }
+    // for (auto i : bstMapDouble)
+    // {
+    //     bstMapDouble[i.first].print();
+    //     cout << endl;
+    // }
+    // for (auto i : bstMapGPS)
+    // {
+    //     bstMapGPS[i.first].print();
+    //     cout << endl;
+    // }
 
     // mapdata is used later during meneu display and it is only used for console user friendly
     map<string, string> mapdata;
@@ -695,7 +700,7 @@ int main()
     mapdata["9"] = "GPS";
     string key;
     string data;
-    // Display the meneu in console to search  values in respective BST
+    // Display the meneu in console to search  values in respective BST and linkedlist
     while (true)
     {
         cout << "Choose search option (Example: enter 2 for last_name) :" << endl;
@@ -740,7 +745,11 @@ int main()
         else
         {
             cout << "Enter value to search " << endl;
-            cin >> data;
+            std::cin.ignore();
+
+            std::getline(std::cin, data);
+
+            // cin >> data;
             cout << "############# Searching Start #################" << endl;
             cout << "Searching for \"" << data << "\"  in BST by " << mapdata[key] << endl;
 
