@@ -11,6 +11,7 @@
 
 using namespace std;
 using namespace nlohmann;
+//print search time
 void printTime(auto start, bool flag)
 {
     auto end = std::chrono::high_resolution_clock::now();
