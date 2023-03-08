@@ -11,7 +11,16 @@
 
 using namespace std;
 using namespace nlohmann;
-
+void printTime(auto start, bool flag)
+{
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << std::fixed << std::setprecision(6) << "Record search time:::::: " << elapsed.count() << " seconds\n";
+    if (flag)
+    {
+        cout << "############ Searching end ##################" << endl;
+    }
+}
 // two string compare by ignoring cases and special characters
 bool containsIgnoreCase(const std::string &str1, const std::string &str2)
 {
@@ -155,13 +164,9 @@ public:
         tail->next = temp;
     }
     // Display count and execution time in console
-    void printCount(string key, int nodeCount, clock_t start)
+    void printCount(string key, int nodeCount)
     {
         cout << "Comapared \"" << key << "\"  to " << nodeCount << " nodes" << endl;
-        clock_t end = clock();
-        double elapsed = static_cast<double>(end - start) / CLOCKS_PER_SEC;
-        cout << "Found in " << elapsed << " seconds" << endl;
-        cout << "time  " << start << " " << end << endl;
     }
     // search values in linked list according to criteria (like id,first_name)
     JsonData *find(const string &key, string criteria)
@@ -169,9 +174,6 @@ public:
 
         // count number of nodes while searching the values
         int nodeCount = 0;
-
-        // calculate execution time to find the values in BST
-        clock_t start_time = clock();
         NodeList *current = head;
         while (current != nullptr)
         {
@@ -181,7 +183,7 @@ public:
             {
                 if (current->data->id == stoi(key))
                 {
-                    printCount(key, nodeCount, start_time);
+                    printCount(key, nodeCount);
                     return current->data;
                 }
             }
@@ -189,7 +191,7 @@ public:
             {
                 if (containsIgnoreCase(current->data->email, key))
                 {
-                    printCount(key, nodeCount, start_time);
+                    printCount(key, nodeCount);
 
                     return current->data;
                 }
@@ -198,7 +200,7 @@ public:
             {
                 if (containsIgnoreCase(current->data->last_name, key))
                 {
-                    printCount(key, nodeCount, start_time);
+                    printCount(key, nodeCount);
 
                     return current->data;
                 }
@@ -207,7 +209,7 @@ public:
             {
                 if (containsIgnoreCase(current->data->car_model, key))
                 {
-                    printCount(key, nodeCount, start_time);
+                    printCount(key, nodeCount);
 
                     return current->data;
                 }
@@ -216,7 +218,7 @@ public:
             {
                 if (containsIgnoreCase(current->data->job_title, key))
                 {
-                    printCount(key, nodeCount, start_time);
+                    printCount(key, nodeCount);
 
                     return current->data;
                 }
@@ -225,7 +227,7 @@ public:
             {
                 if (containsIgnoreCase(current->data->phone_number, key))
                 {
-                    printCount(key, nodeCount, start_time);
+                    printCount(key, nodeCount);
 
                     return current->data;
                 }
@@ -234,7 +236,7 @@ public:
             {
                 if (containsIgnoreCase(current->data->address, key))
                 {
-                    printCount(key, nodeCount, start_time);
+                    printCount(key, nodeCount);
 
                     return current->data;
                 }
@@ -243,7 +245,7 @@ public:
             {
                 if (current->data->latitude == stod(key))
                 {
-                    printCount(key, nodeCount, start_time);
+                    printCount(key, nodeCount);
 
                     return current->data;
                 }
@@ -251,7 +253,7 @@ public:
 
             current = current->next;
         }
-        printCount(key, nodeCount, start_time);
+        printCount(key, nodeCount);
         return nullptr;
     }
     // serach GPS in linkedlist
@@ -259,9 +261,6 @@ public:
     {
         // count number of nodes while searching the values
         int nodeCount = 0;
-
-        // calculate execution time to find the values in BST
-        clock_t start_time = clock();
         NodeList *current = head;
         while (current != nullptr)
         {
@@ -272,9 +271,6 @@ public:
                 cout << "Comapared "
                      << "(" << key.lat << ", " << key.lon << ") "
                      << " to " << nodeCount << " nodes" << endl;
-                clock_t end = clock();
-                double elapsed = static_cast<double>(end - start_time) / CLOCKS_PER_SEC;
-                cout << "Found in " << elapsed << " seconds" << endl;
                 return current->data;
             }
 
@@ -283,9 +279,6 @@ public:
         cout << "Comapared "
              << "(" << key.lat << ", " << key.lon << ") "
              << " to " << nodeCount << " nodes" << endl;
-        clock_t end = clock();
-        double elapsed = static_cast<double>(end - start_time) / CLOCKS_PER_SEC;
-        cout << "Found in " << elapsed << " seconds" << endl;
         return nullptr;
     }
     // print found record in console
@@ -319,7 +312,7 @@ public:
         {
             cout << "No record found" << endl;
         }
-        cout << "############ Searching end ##################" << endl;
+        // cout << "############ Searching end ##################" << endl;
     }
     // print all linkedList values
     void printValue()
@@ -387,19 +380,13 @@ private:
     {
         // count number of nodes while searching the values
         static int count = 0;
-
         count++;
-        // calculate execution time to find the values in BST
-        const clock_t start = clock();
 
         if (node == nullptr)
         {
             cout << "Comapared  to " << count << " nodes" << endl;
-
-            clock_t end = clock();
-            double elapsed = static_cast<double>(end - start) / CLOCKS_PER_SEC;
-            cout << "No Record Found in " << elapsed << " seconds" << endl;
-
+            //// static count retain previous values while searching anthor values so  re-initialized
+            count = 0;
             return node;
         }
         // C++ compilier will dynamically switch < operator as per data types
@@ -422,10 +409,6 @@ private:
             {
                 cout << "Comapared \"" << value << "\"  to " << count << " nodes" << endl;
             }
-
-            clock_t end = clock();
-            double elapsed = static_cast<double>(end - start) / CLOCKS_PER_SEC;
-            cout << "Found in " << elapsed << " seconds" << endl;
             //// static count retain previous values while searching anthor values so  re-initialized
             count = 0;
             return node;
@@ -770,13 +753,18 @@ int main()
                  << "(" << gp.lat << ", " << gp.lon << ")"
                  << " in BST by " << mapdata[key] << endl;
             // print found data after searcing data in respective BST
+            auto start = std::chrono::high_resolution_clock::now();
+
             bstMapGPS[mapdata[key]].printSearch(bstMapGPS[mapdata[key]].search(gp));
-            cout << endl;
+            printTime(start, false);
             cout << "***************************" << endl;
             cout << "Searching for "
                  << "(" << gp.lat << ", " << gp.lon << ")"
                  << " in LinkList by " << mapdata[key] << endl;
+            auto start1 = std::chrono::high_resolution_clock::now();
+
             l.printSearch(l.find(gp));
+            printTime(start1, true);
         }
 
         else
@@ -793,34 +781,49 @@ int main()
             if (mapdata[key] == "id")
             {
                 int value = stoi(data);
+                auto start = std::chrono::high_resolution_clock::now();
+
                 bstMapInt[mapdata[key]].printSearch(bstMapInt[mapdata[key]].search(value));
-                cout << endl;
+                printTime(start, false);
+
                 cout << "***************************" << endl;
                 cout << "Searching for \"" << data << "\"  in LinkList by " << mapdata[key] << endl;
+                auto start1 = std::chrono::high_resolution_clock::now();
 
                 l.printSearch(l.find(data, mapdata[key]));
+                printTime(start1, true);
             }
             else if (mapdata[key] == "latitude")
             {
                 double doubleValue = stod(data);
+                auto start = std::chrono::high_resolution_clock::now();
+
                 bstMapDouble[mapdata[key]].printSearch(bstMapDouble[mapdata[key]].search(doubleValue));
-                cout << endl;
+                printTime(start, false);
+
                 cout << "***************************" << endl;
 
                 cout << "Searching for \"" << data << "\"  in LinkList by " << mapdata[key] << endl;
+                auto start1 = std::chrono::high_resolution_clock::now();
 
                 l.printSearch(l.find(data, mapdata[key]));
+                printTime(start1, true);
             }
 
             else
             {
+                auto start = std::chrono::high_resolution_clock::now();
+
                 bstMapString[mapdata[key]].printSearch(bstMapString[mapdata[key]].search(data));
-                cout << endl;
+                printTime(start, false);
+
                 cout << "***************************" << endl;
 
                 cout << "Searching for \"" << data << "\"  in LinkList by " << mapdata[key] << endl;
+                auto start1 = std::chrono::high_resolution_clock::now();
 
                 l.printSearch(l.find(data, mapdata[key]));
+                printTime(start1, true);
             }
         }
 
