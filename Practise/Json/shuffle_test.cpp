@@ -155,73 +155,29 @@ private:
     Node *head;
 };
 
+void printTime(auto start)
+{
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << std::fixed << std::setprecision(6) << "Record Search time:::: " << elapsed.count() << " seconds\n";
+}
 int main()
 {
-    LinkedList list;
-    GPS g;
-    g.lat = 56.12;
-    g.lon = 12.56;
+     auto start = std::chrono::high_resolution_clock::now();
 
-    // Add some data to the linked list
-    JsonData *data1 = new JsonData{1, "John", "Doe", g};
-    JsonData *data2 = new JsonData{2, "Jane", "Doe", g};
-    list.add(data1);
-    list.add(data2);
 
-    // Search by id
-    int id = 1;
-    JsonData *result = list.find(to_string(id), LinkedList::ID);
-    list.seachPrint(list.find(to_string(id) , LinkedList::ID)) ;
+    // do some work here...
+      for (int i=0;i<=5;i++){
 
-    if (result != nullptr)
-    {
-        cout << "Found data with id " << id << ": "
-             << result->first_name << " " << result->last_name << endl;
+      int a=i;
+      cout<<a;
+               
     }
-    else
-    {
-        cout << "Data with id " << id << " not found." << endl;
-    }
+    printTime(start);
 
-    // Search by first name
-    string name = "jane";
-    result = list.find(name, LinkedList::FIRST_NAME);
-    if (result != nullptr)
-    {
-        cout << "Found data with first name " << name << ": "
-             << result->id << " " << result->last_name << endl;
-    }
-    else
-    {
-        cout << "Data with first name " << name << " not found." << endl;
-    }
-
-    // Search by last name
-    string lname = "Doe";
-    result = list.find(lname, LinkedList::LAST_NAME);
-    if (result != nullptr)
-    {
-        cout << "Found data with last name " << lname << ": "
-             << result->id << " " << result->first_name << endl;
-    }
-    else
-    {
-        cout << "Data with last name " << lname << " not found." << endl;
-    }
-
-    GPS g1;
-    g1.lat = 56.12;
-    g1.lon = 12.5;
-    result = list.find(g1);
-    if (result != nullptr)
-    {
-        cout << "Found data with GPS" << g1.lat << ": "
-             << result->gps.lat << " " << result->gps.lon << endl;
-    }
-    else
-    {
-        cout << "Data with GPS " << g1.lat << " not found." << endl;
-    }
+  
+     
 
     return 0;
 }
