@@ -11,7 +11,7 @@
 
 using namespace std;
 using namespace nlohmann;
-//print search time
+// print searching time
 void printTime(auto start, bool flag)
 {
     auto end = std::chrono::high_resolution_clock::now();
@@ -22,7 +22,7 @@ void printTime(auto start, bool flag)
         cout << "############ Searching end ##################" << endl;
     }
 }
-// two string compare by ignoring cases and special characters
+// compare two string  by ignoring cases and special characters
 bool containsIgnoreCase(const std::string &str1, const std::string &str2)
 {
     auto str1Begin = str1.begin();
@@ -139,7 +139,7 @@ public:
     {
         head = nullptr;
     }
-
+    // add item on front
     void add(JsonData *data)
     {
         NodeList *node = new NodeList;
@@ -147,6 +147,7 @@ public:
         node->next = head;
         head = node;
     }
+    // add item on tail
     void append(JsonData *data)
     {
         NodeList *temp = new NodeList();
@@ -164,7 +165,7 @@ public:
         }
         tail->next = temp;
     }
-    // Display count and execution time in console
+    // Display count in console
     void printCount(string key, int nodeCount)
     {
         cout << "Comapared \"" << key << "\"  to " << nodeCount << " nodes" << endl;
@@ -172,14 +173,11 @@ public:
     // search values in linked list according to criteria (like id,first_name)
     JsonData *find(const string &key, string criteria)
     {
-
-        // count number of nodes while searching the values
-        int nodeCount = 0;
+        int nodeCount = 0; // count number of nodes while searching the values
         NodeList *current = head;
         while (current != nullptr)
         {
             nodeCount++;
-
             if (criteria == "id")
             {
                 if (current->data->id == stoi(key))
@@ -260,8 +258,8 @@ public:
     // serach GPS in linkedlist
     JsonData *find(GPS key)
     {
-        // count number of nodes while searching the values
-        int nodeCount = 0;
+        int nodeCount = 0; // count number of nodes while searching the values
+
         NodeList *current = head;
         while (current != nullptr)
         {
@@ -330,9 +328,10 @@ public:
 private:
     NodeList *head;
 };
-
-//  BinarySearchTree class is defined using a template parameter typename T,
-// which allows it to work with any data type
+/**
+ * BinarySearchTree class is defined using a template parameter typename T,
+ * which allows it to work with any data type
+ */
 template <typename T>
 class BinarySearchTree
 {
@@ -379,21 +378,21 @@ private:
 
     Node *search(Node *node, const T &value) const
     {
-        // count number of nodes while searching the values
-        static int count = 0;
+        static int count = 0; // count number of nodes while searching the values
         count++;
 
         if (node == nullptr)
         {
             cout << "Comapared  to " << count << " nodes" << endl;
-            //// static count retain previous values while searching anthor values so  re-initialized
-            count = 0;
+            count = 0; // static count retain previous values while searching anthor values so  re-initialized
+
             return node;
         }
         // C++ compilier will dynamically switch < operator as per data types
-        //  todo ignore case sensitive during string compare and  wildcard as well
         if (node->value == value)
         {
+            // constexpr will check the template parameter T to determine how to print the values .
+
             if constexpr (is_same_v<T, GPS>)
             {
                 cout << "Comapared "
@@ -410,8 +409,8 @@ private:
             {
                 cout << "Comapared \"" << value << "\"  to " << count << " nodes" << endl;
             }
-            //// static count retain previous values while searching anthor values so  re-initialized
-            count = 0;
+            count = 0; // static count retain previous values while searching anthor values so  re-initialized
+
             return node;
         }
         else if (value < node->value)
@@ -423,6 +422,7 @@ private:
             return search(node->right, value);
         }
     }
+    // print bst
     void print(Node *node)
     {
         if (!node)
@@ -467,7 +467,7 @@ public:
     {
         print(root);
     }
-    // print the found json  if search values is found
+    // print json data if search values is found
     void printSearch(Node *result)
 
     {
@@ -496,7 +496,6 @@ public:
             nodeJson["longitude"] = result->jsondata.longitude;
             nodeJson["stocks"] = result->jsondata.stocks;
             // constexpr will check the template parameter T to determine how to print the values .
-
             if constexpr (is_same_v<T, GPS>)
             {
                 cout << "Record found for ";
@@ -520,7 +519,7 @@ public:
 int main()
 {
 
-    // maps to store the multiples binary search tree where key is string and values is instance of BinarySearchTree
+    // Declare maps to store the multiples binary search tree where key is string and values is instance of BinarySearchTree
     map<string, BinarySearchTree<int>> bstMapInt;
     map<string, BinarySearchTree<WildCardString>> bstMapString;
     map<string, BinarySearchTree<double>> bstMapDouble;
@@ -678,7 +677,6 @@ int main()
         // BST for GPS
         bstMapGPS["GPS"].insert(data.gps, data);
         // insert JsonData in linked_list
-        // l.add(new JsonData(data));
         l.append(new JsonData(data));
     }
     // cout << "Print list " << endl;
@@ -721,7 +719,7 @@ int main()
     mapdata["9"] = "GPS";
     string key;
     string data;
-    // Display the meneu in console to search  values in respective BST and linkedlist
+    // Display the meneu in console to search values in respective BST and linkedlist
     while (true)
     {
         cout << "Choose search option (Example: enter 2 for last_name) :" << endl;
@@ -812,17 +810,15 @@ int main()
             }
 
             else
-            {
+            { // start time
                 auto start = std::chrono::high_resolution_clock::now();
-
+                // seacrh data in bst
                 bstMapString[mapdata[key]].printSearch(bstMapString[mapdata[key]].search(data));
+                // print search time
                 printTime(start, false);
-
                 cout << "***************************" << endl;
-
                 cout << "Searching for \"" << data << "\"  in LinkList by " << mapdata[key] << endl;
                 auto start1 = std::chrono::high_resolution_clock::now();
-
                 l.printSearch(l.find(data, mapdata[key]));
                 printTime(start1, true);
             }
