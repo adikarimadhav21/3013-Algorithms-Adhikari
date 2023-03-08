@@ -22,6 +22,7 @@ Since most of these data elements are easily sorted and made searchable so we ca
 | :---: | --------------- | -------------------------------------------------- |
 |   1   | json.hpp        | header files of nlohmann to read the json files   |
 |   2   | json_parser.cpp  | main files which have json files parser, build BST and search the data in BST      |
+|3|output_file.pdf| screenshot of output|
 
 ### Instructions
 
