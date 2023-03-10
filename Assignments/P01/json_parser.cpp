@@ -49,9 +49,9 @@ using namespace nlohmann;
  */
 void printTime(auto start, bool flag)
 {
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = end - start;
-    std::cout << std::fixed << std::setprecision(6) << "Record search time:::::: " << elapsed.count() << " seconds\n";
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> elapsed = end - start;
+    cout << fixed << setprecision(6) << "Record search time:::::: " << elapsed.count() << " seconds\n";
     if (flag)
     {
         cout << "############ Searching end ##################" << endl;
@@ -72,7 +72,7 @@ void printTime(auto start, bool flag)
  *      bool
  */
 
-bool containsIgnoreCase(const std::string &str1, const std::string &str2)
+bool containsIgnoreCase(const string &str1, const string &str2)
 {
     auto str1Begin = str1.begin();
     auto str1End = str1.end();
@@ -80,22 +80,22 @@ bool containsIgnoreCase(const std::string &str1, const std::string &str2)
     auto str2End = str2.end();
 
     // Convert both strings to lowercase and remove special characters
-    std::string str1Lower;
-    std::transform(str1Begin, str1End, std::back_inserter(str1Lower), [](char c)
-                   { return std::tolower(c); });
-    str1Lower.erase(std::remove_if(str1Lower.begin(), str1Lower.end(), [](char c)
-                                   { return !std::isalnum(c); }),
+    string str1Lower;
+    transform(str1Begin, str1End, back_inserter(str1Lower), [](char c)
+                   { return tolower(c); });
+    str1Lower.erase(remove_if(str1Lower.begin(), str1Lower.end(), [](char c)
+                                   { return !isalnum(c); }),
                     str1Lower.end());
 
-    std::string str2Lower;
-    std::transform(str2Begin, str2End, std::back_inserter(str2Lower), [](char c)
-                   { return std::tolower(c); });
-    str2Lower.erase(std::remove_if(str2Lower.begin(), str2Lower.end(), [](char c)
-                                   { return !std::isalnum(c); }),
+    string str2Lower;
+    transform(str2Begin, str2End, back_inserter(str2Lower), [](char c)
+                   { return tolower(c); });
+    str2Lower.erase(remove_if(str2Lower.begin(), str2Lower.end(), [](char c)
+                                   { return !isalnum(c); }),
                     str2Lower.end());
 
     // Check if str1Lower contains str2Lower
-    return str1Lower.find(str2Lower) != std::string::npos;
+    return str1Lower.find(str2Lower) != string::npos;
 }
 
 /**
@@ -117,12 +117,12 @@ struct WildCardString
 
     bool operator<(const WildCardString &other) const
     {
-        return std::lexicographical_compare(
+        return lexicographical_compare(
             str.begin(), str.end(),
             other.str.begin(), other.str.end(),
             [](char a, char b)
             {
-                return std::tolower(a) < std::tolower(b);
+                return tolower(a) < tolower(b);
             });
     }
 };
@@ -820,10 +820,10 @@ int main()
     }
 
     // To make bettter balance BST, randomly shuffle the json lines
-    unsigned seed = std::chrono::system_clock::now()
+    unsigned seed = chrono::system_clock::now()
                         .time_since_epoch()
                         .count();
-    shuffle(JsonDataList.begin(), JsonDataList.end(), std::default_random_engine(seed));
+    shuffle(JsonDataList.begin(), JsonDataList.end(), default_random_engine(seed));
 
     // Insert data in BST and linkedList
     for (JsonData data : JsonDataList)
@@ -935,7 +935,7 @@ int main()
                  << "(" << gp.lat << ", " << gp.lon << ")"
                  << " in BST by " << mapdata[key] << endl;
             // Search gps in BST and display found data with number of nodes and searching time
-            auto start = std::chrono::high_resolution_clock::now();
+            auto start = chrono::high_resolution_clock::now();
 
             bstMapGPS[mapdata[key]].printSearch(bstMapGPS[mapdata[key]].search(gp));
             printTime(start, false);
@@ -943,7 +943,7 @@ int main()
             cout << "Searching for "
                  << "(" << gp.lat << ", " << gp.lon << ")"
                  << " in LinkList by " << mapdata[key] << endl;
-            auto start1 = std::chrono::high_resolution_clock::now();
+            auto start1 = chrono::high_resolution_clock::now();
 
             l.printSearch(l.find(gp));
             printTime(start1, true);
@@ -952,8 +952,8 @@ int main()
         else
         {
             cout << "Enter value to search " << endl;
-            std::cin.ignore();
-            std::getline(std::cin, data); // take space seperated values as well from console
+            cin.ignore();
+            getline(cin, data); // take space seperated values as well from console
 
             cout << "############# Searching Start #################" << endl;
             cout << "Searching for \"" << data << "\"  in BST by " << mapdata[key] << endl;
@@ -963,14 +963,14 @@ int main()
             if (mapdata[key] == "id")
             {
                 int value = stoi(data);
-                auto start = std::chrono::high_resolution_clock::now();
+                auto start = chrono::high_resolution_clock::now();
                 // Search item on BST and display result
                 bstMapInt[mapdata[key]].printSearch(bstMapInt[mapdata[key]].search(value));
                 printTime(start, false);
 
                 cout << "***************************" << endl;
                 cout << "Searching for \"" << data << "\"  in LinkList by " << mapdata[key] << endl;
-                auto start1 = std::chrono::high_resolution_clock::now();
+                auto start1 = chrono::high_resolution_clock::now();
 
                 l.printSearch(l.find(data, mapdata[key]));
                 printTime(start1, true);
@@ -980,7 +980,7 @@ int main()
             else if (mapdata[key] == "latitude")
             {
                 double doubleValue = stod(data);
-                auto start = std::chrono::high_resolution_clock::now(); // start time for BST search
+                auto start = chrono::high_resolution_clock::now(); // start time for BST search
                 // Search item on BST and display result
                 bstMapDouble[mapdata[key]].printSearch(bstMapDouble[mapdata[key]].search(doubleValue));
                 printTime(start, false);
@@ -988,14 +988,14 @@ int main()
                 cout << "***************************" << endl;
 
                 cout << "Searching for \"" << data << "\"  in LinkList by " << mapdata[key] << endl;
-                auto start1 = std::chrono::high_resolution_clock::now(); // start time for LinkedList search
+                auto start1 = chrono::high_resolution_clock::now(); // start time for LinkedList search
                 l.printSearch(l.find(data, mapdata[key]));
                 printTime(start1, true);
             }
             // Search item on respective string BST and linkedList and print result
             else
             {
-                auto start = std::chrono::high_resolution_clock::now(); // start time for BST search
+                auto start = chrono::high_resolution_clock::now(); // start time for BST search
                 // seacrh data in bst and print the result
                 bstMapString[mapdata[key]].printSearch(bstMapString[mapdata[key]].search(data));
                 // print search time
@@ -1003,7 +1003,7 @@ int main()
                 cout << "***************************" << endl;
                 cout << "Searching for \"" << data << "\"  in LinkList by " << mapdata[key] << endl;
 
-                auto start1 = std::chrono::high_resolution_clock::now(); // start time for LinkedList search
+                auto start1 = chrono::high_resolution_clock::now(); // start time for LinkedList search
                 l.printSearch(l.find(data, mapdata[key]));
                 printTime(start1, true);
             }
