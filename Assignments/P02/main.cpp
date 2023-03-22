@@ -66,6 +66,8 @@ int main()
     cout << " Issue in file load ";
   }
 
+T.End(); // load end time
+
   // Calculate loading time
   cout << "words load completed in  "
        << printf("%.17f", (double)T.NanoSeconds() / 1000000000) << " seconds" << endl;
