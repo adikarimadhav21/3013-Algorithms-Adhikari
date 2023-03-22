@@ -20,6 +20,7 @@
    random_person_data_1.json : inut data which have Json object
    output_file : screenshot of output
 *****************************************************************************/
+
 #include <iostream>
 #include "json.hpp"
 #include <fstream>
@@ -47,6 +48,7 @@ using namespace nlohmann;
  * Returns:
  *      void
  */
+
 void printTime(auto start, bool flag)
 {
     auto end = chrono::high_resolution_clock::now();
@@ -103,6 +105,7 @@ bool containsIgnoreCase(const string &str1, const string &str2)
  *
  **/
 
+
 struct WildCardString
 {
     string str;
@@ -132,6 +135,7 @@ struct WildCardString
  * operator function can be used later in insert and search function of BST/LinkedListto compare GPS types data
  */
 
+
 struct GPS
 {
 public:
@@ -155,6 +159,8 @@ public:
 /**
  * Define Jsondata class/struct to collect the json elements
  */
+
+
 class JsonData
 {
 public:
@@ -181,6 +187,7 @@ public:
 /**
  *  define NodeList struct to hold Jsondata in linkedList
  */
+
 struct NodeList
 {
     JsonData *data;
@@ -216,6 +223,8 @@ struct NodeList
  *  void printSearch(JsonData *result) // Display found values after searching item
  *  void printValue()  // trasversal linkedList
  */
+
+
 class LinkedList
 {
 public:
@@ -231,6 +240,7 @@ public:
         node->next = head;
         head = node;
     }
+    
     /**
      * Public : append
      *
@@ -243,6 +253,7 @@ public:
      * Returns:
      *      void
      */
+
     void append(JsonData *data)
     {
         NodeList *temp = new NodeList();
@@ -260,6 +271,7 @@ public:
         }
         tail->next = temp;
     }
+   
     /**
      * Public : printCount
      *
@@ -273,6 +285,7 @@ public:
      * Returns:
      *      void
      */
+
     void printCount(string key, int nodeCount)
     {
         cout << "Comapared \"" << key << "\"  to " << nodeCount << " nodes" << endl;
@@ -387,6 +400,7 @@ public:
              << " to " << nodeCount << " nodes" << endl;
         return nullptr;
     }
+   
     /**
      * Public : printSearch
      *
@@ -399,6 +413,7 @@ public:
      * Returns:
      *      void
      */
+
     void printSearch(JsonData *result)
     {
         if (result != nullptr)
@@ -476,6 +491,7 @@ private:
  * void printSearch(Node *result) // Display found values after searching item
  */
 
+
 template <typename T>
 class BinarySearchTree
 {
@@ -519,6 +535,7 @@ private:
             insert(node->right, value, jsondata);
         }
     }
+   
     /**
      * Private : search
      *
@@ -532,6 +549,7 @@ private:
      * Returns:
      *      Node
      */
+
     Node *search(Node *node, const T &value) const
     {
         static int count = 0; // count number of nodes while searching the values
@@ -578,6 +596,7 @@ private:
             return search(node->right, value);
         }
     }
+   
     /**
      * Private : print
      *
@@ -590,6 +609,7 @@ private:
      * Returns:
      *      void
      */
+
     void print(Node *node)
     {
         if (!node)
@@ -634,6 +654,7 @@ public:
     {
         print(root);
     }
+  
     /**
      * Public : printSearch
      *
@@ -646,6 +667,7 @@ public:
      * Returns:
      *      void
      */
+
     void printSearch(Node *result)
 
     {
@@ -838,6 +860,7 @@ int main()
          *  If "id" is already present in the map, this expression will insert value
          *  into the existing BinarySearchTree associated with "id".
          */
+
         bstMapInt["id"].insert(data.id, data);
         // BST for last_name
         bstMapString["last_name"].insert(data.last_name, data);
@@ -898,10 +921,12 @@ int main()
     mapdata["9"] = "GPS";
     string key;  // hold meneu option
     string data; // hold searching values
+    
     /**
      * Display the meneu in console to search values in respective BST and linkedlist
      It is infine loop and only terminate if user press 10
     */
+
     while (true)
     {
         cout << "Choose search option (Example: enter 2 for last_name) :" << endl;
@@ -921,6 +946,7 @@ int main()
             break;
         }
         // Search GPS on  respective BST and linkedList and print result
+
         else if (key == "9")
         {
             cout << "Enter value to latitude " << endl;
@@ -935,8 +961,8 @@ int main()
                  << "(" << gp.lat << ", " << gp.lon << ")"
                  << " in BST by " << mapdata[key] << endl;
             // Search gps in BST and display found data with number of nodes and searching time
+           
             auto start = chrono::high_resolution_clock::now();
-
             bstMapGPS[mapdata[key]].printSearch(bstMapGPS[mapdata[key]].search(gp));
             printTime(start, false);
             cout << "***************************" << endl;
@@ -953,7 +979,9 @@ int main()
         {
             cout << "Enter value to search " << endl;
             cin.ignore();
-            getline(cin, data); // take space seperated values as well from console
+
+            // take space seperated values as well from console
+            getline(cin, data); 
 
             cout << "############# Searching Start #################" << endl;
             cout << "Searching for \"" << data << "\"  in BST by " << mapdata[key] << endl;
@@ -964,6 +992,7 @@ int main()
             {
                 int value = stoi(data);
                 auto start = chrono::high_resolution_clock::now();
+
                 // Search item on BST and display result
                 bstMapInt[mapdata[key]].printSearch(bstMapInt[mapdata[key]].search(value));
                 printTime(start, false);
@@ -975,12 +1004,14 @@ int main()
                 l.printSearch(l.find(data, mapdata[key]));
                 printTime(start1, true);
             }
+
             // Search item on respective double BST and linkedList and print result
 
             else if (mapdata[key] == "latitude")
             {
                 double doubleValue = stod(data);
                 auto start = chrono::high_resolution_clock::now(); // start time for BST search
+               
                 // Search item on BST and display result
                 bstMapDouble[mapdata[key]].printSearch(bstMapDouble[mapdata[key]].search(doubleValue));
                 printTime(start, false);
@@ -992,12 +1023,15 @@ int main()
                 l.printSearch(l.find(data, mapdata[key]));
                 printTime(start1, true);
             }
+           
             // Search item on respective string BST and linkedList and print result
             else
             {
                 auto start = chrono::high_resolution_clock::now(); // start time for BST search
+                
                 // seacrh data in bst and print the result
                 bstMapString[mapdata[key]].printSearch(bstMapString[mapdata[key]].search(data));
+                
                 // print search time
                 printTime(start, false);
                 cout << "***************************" << endl;
