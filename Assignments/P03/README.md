@@ -4,7 +4,7 @@
 ### Description:
 loading a Trie Tree with dictionary words, then timing how it takes to look them up. I have applied the following approaches to this program.
 
-- Read text file and load in Trie by lowering each words
+- Read json file and load in Trie by lowering each words
 - Display required time to load
 - Ask user to search words and capture of keyboard input, without hitting the enter key (using mygetch.hpp)            
 - Search the required letter in Trie and provide 10 autosuggestion words with search time and number of matched words
