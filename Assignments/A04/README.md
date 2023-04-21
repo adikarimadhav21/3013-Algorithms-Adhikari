@@ -11,9 +11,11 @@ The KMP Algorithm is a string-matching algorithm used to find occurrences of a p
 
 - 	How does the KMP Algorithm work?
 
--- 	The KMP Algorithm uses a prefix function to preprocess the pattern to identify any suffixes that match any prefixes of the pattern.
--- 	This information is used to avoid unnecessary character comparisons during the matching process, making it more efficient.
--- The algorithm matches the pattern against the text string by sliding the pattern over the text string, comparing characters until a match is found or the end of the text string is reached.
+   --	The KMP Algorithm uses a prefix function to preprocess the pattern to identify any suffixes that match any prefixes of the pattern.
+   --  This information is used to avoid unnecessary character comparisons during the matching process, making it more efficient.
+   --  The algorithm matches the pattern against the text string by sliding the pattern over the text string, comparing characters until a match is found or the end of the text string is reached.
+
+  
 
 -	What is the time complexity and space complexity of the KMP Algorithm?
 
