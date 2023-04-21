@@ -9,5 +9,3 @@
 |    04 |  [P02](https://github.com/adikarimadhav21/3013-Algorithms-Adhikari/tree/main/Assignments/P02)| Assignment to read text files , build linkedList data structure and provide autosuggestion to users|    
 |    05 |  [P03](https://github.com/adikarimadhav21/3013-Algorithms-Adhikari/tree/main/Assignments/P03)| Assignment to read json files , build Trie data structure and provide autosuggestion to users|   
 |    05 |  [A04](https://github.com/adikarimadhav21/3013-Algorithms-Adhikari/tree/main/Assignments/A04)| Assignment A04 - Presentations|                        
-
-
